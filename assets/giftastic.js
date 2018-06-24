@@ -25,15 +25,21 @@ function displayGif() {
         for (var i = 0; i < results.length; i++) {
             var foodDiv = $("<div class='gifDiv'>");
             var rating = results[i].rating;
-            var p = $("<p>").text("Rating: " + rating);
+            var pRating = $("<p>").text("Rating: " + rating);
+            var title = results[i].title;
+            var pTitle = $("<p>").text("Title: " + title);
             var gifImage = $("<img>");
+            var saveBtn = $("<button>").text("Save");
+            saveBtn.addClass("saveButton");
             gifImage.attr("src", results[i].images.fixed_height_still.url);
             gifImage.attr("data-state", "still")
             gifImage.attr("still-image", results[i].images.fixed_height_still.url);
             gifImage.attr("animated-image", results[i].images.fixed_height.url);
             gifImage.addClass("theImage");
-            foodDiv.append(p);
+            foodDiv.append(pTitle);
+            foodDiv.append(pRating);
             foodDiv.append(gifImage);
+            foodDiv.append(saveBtn);
             $("#gifs-view").prepend(foodDiv);
         }
     });
@@ -50,6 +56,10 @@ function changeState() {
     }
 }
 
+function saveGif() {
+    console.log("Hi");
+    
+}
 //start of function initiation
 $(document).ready(function() {
     renderButtons();
@@ -60,9 +70,7 @@ $(document).ready(function() {
         topics.push(newFood);
         renderButtons();
     });
-
-
-
     $(document).on("click", ".food-btn", displayGif); 
     $(document).on("click", ".theImage", changeState);
+    $(document).on("click", ".saveButton", saveGif);
 });
