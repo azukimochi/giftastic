@@ -1,5 +1,6 @@
 var topics = ["Parfait", "Tempura", "Durian", "Noodles"];
-
+var results = [];
+var arrSavedItems = [];
 //function for rendering buttons to appear on the screen
 function renderButtons() {
     $("#buttons-area").empty();
@@ -20,8 +21,7 @@ function displayGif() {
         url: queryURL,
         method: "GET"
     }).then(function(response) {
-        console.log(response);
-        var results = response.data; 
+        results = response.data; 
         for (var i = 0; i < results.length; i++) {
             var foodDiv = $("<div class='gifDiv'>");
             var rating = results[i].rating;
@@ -30,7 +30,14 @@ function displayGif() {
             var pTitle = $("<p>").text("Title: " + title);
             var gifImage = $("<img>");
             var saveBtn = $("<button>").text("Save");
+
             saveBtn.addClass("saveButton");
+            saveBtn.attr("data-title", results[i].title);
+            saveBtn.attr("data-rating", results[i].rating);
+            saveBtn.attr("data-image", results[i].images.fixed_height_still.url);
+            saveBtn.attr("data-image-still", results[i].images.fixed_height_still.url);
+            saveBtn.attr("data-image-animate", results[i].images.fixed_height.url);
+
             gifImage.attr("src", results[i].images.fixed_height_still.url);
             gifImage.attr("data-state", "still")
             gifImage.attr("still-image", results[i].images.fixed_height_still.url);
@@ -58,12 +65,65 @@ function changeState() {
 
 function saveGif() {
     console.log("Hi");
-    
+    console.log($(this).attr("data-title"));
+    console.log($(this).attr("data-rating"));
+    console.log($(this).attr("data-image"));
+    console.log($(this).attr("data-image-animate"));
+    console.log($(this).attr("data-image-still"));
+    console.log($(this).attr("data-state"));
+    var vsaveTitle = $(this).attr("data-title");
+    var vsaveRating = $(this).attr("data-rating");
+    var vsaveImage = $(this).attr("data-image");
+    var vsaveImageStill = $(this).attr("data-image-still");
+    var vsaveImageAnimate = $(this).attr("data-image-animate");
+    var savedItem = {
+        "title": vsaveTitle,
+        "rating": vsaveRating,
+        "image": vsaveImage,
+        "imageStill": vsaveImageStill,
+        "imageAnimate": vsaveImageAnimate,
+    }
+    console.log(savedItem);
+    arrSavedItems.push(savedItem);
+    console.log("This is the array " + arrSavedItems);
+    localStorage.setItem("saved-gifs", JSON.stringify(arrSavedItems));
+    // showSavedGifs();
 }
+
+function showSavedGifs() {
+    // $("#gifs-view").empty();
+    var lastActivity = JSON.parse(localStorage.getItem("saved-gifs"));
+    for (i = 0; i < lastActivity.length; i++) {
+        console.log(lastActivity[i].rating);
+        var foodDiv = $("<div class='gifDiv'>"); 
+        var pRating = $("<p>").text("Rating: " + lastActivity[i].rating);
+        var pTitle = $("<p>").text("Title: " + lastActivity[i].title);
+        var gifImage = $("<img>");
+        var saveBtn = $("<button>").text("Save");
+
+        saveBtn.addClass("saveButton");
+        saveBtn.attr("data-title", lastActivity[i].title);
+        saveBtn.attr("data-rating", lastActivity[i].rating);
+        saveBtn.attr("data-image", lastActivity[i].image);
+
+        gifImage.attr("src", lastActivity[i].image);
+        gifImage.attr("data-state", "still")
+        gifImage.attr("still-image", lastActivity[i].imageStill);
+        gifImage.attr("animated-image", lastActivity[i].imageAnimate);
+        gifImage.addClass("theImage");
+        foodDiv.append(pTitle);
+        foodDiv.append(pRating);
+        foodDiv.append(gifImage);
+        foodDiv.append(saveBtn);
+        $("#gifs-view").prepend(foodDiv);
+    }
+}
+
 //start of function initiation
 $(document).ready(function() {
+    // localStorage.clear();
     renderButtons();
-
+    
     $("#add-food").click(function() {
         event.preventDefault();
         var newFood = $("#food-input").val().trim();
@@ -73,4 +133,6 @@ $(document).ready(function() {
     $(document).on("click", ".food-btn", displayGif); 
     $(document).on("click", ".theImage", changeState);
     $(document).on("click", ".saveButton", saveGif);
+    showSavedGifs();
+
 });
