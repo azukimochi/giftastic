@@ -92,6 +92,7 @@ function saveGif() {
 
 function showSavedGifs() {
     // $("#gifs-view").empty();
+    arrSavedItems = JSON.parse(localStorage.getItem("saved-gifs"));
     var lastActivity = JSON.parse(localStorage.getItem("saved-gifs"));
     for (i = 0; i < lastActivity.length; i++) {
         console.log(lastActivity[i].rating);
