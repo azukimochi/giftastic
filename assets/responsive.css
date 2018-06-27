@@ -1,0 +1,20 @@
+@media only screen and (max-width: 860px) {
+    .gifs-container {
+        display: inline;
+    }
+    .gif-results {
+        width: 90%;
+    }
+    .img {
+        width: 100%;
+    }
+    .favourites-box {
+        margin-top: 5%;
+        width: 90%;
+    }
+}
+@media only screen and (max-width: 650px) {
+    img {
+        width: 60%;
+    }
+}

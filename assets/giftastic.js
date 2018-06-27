@@ -1,6 +1,8 @@
+//global variables
 var topics = ["Parfait", "Tempura", "Durian", "Noodles"];
 var results = [];
 var arrSavedItems = [];
+
 //function for rendering buttons to appear on the screen
 function renderButtons() {
     $("#buttons-area").empty();
@@ -93,14 +95,15 @@ function saveGif() {
     arrSavedItems.push(savedItem);
     console.log("This is the array " + arrSavedItems);
     localStorage.setItem("saved-gifs", JSON.stringify(arrSavedItems));
-    // showSavedGifs();
+    showSavedGifs();
 }
 
 //function for showing the saved gifs when reloading the page because they're in the local storage 
 function showSavedGifs() {
-    // $("#gifs-view").empty();
+    $("#favourites").empty();
     arrSavedItems = JSON.parse(localStorage.getItem("saved-gifs")) || [];
-    var lastActivity = JSON.parse(localStorage.getItem("saved-gifs")) || [];
+    // var lastActivity = JSON.parse(localStorage.getItem("saved-gifs")) || [];
+    var lastActivity = arrSavedItems;
     for (i = 0; i < lastActivity.length; i++) {
         console.log(lastActivity[i].rating);
         var foodDiv = $("<div class='gifDiv'>"); 
@@ -111,6 +114,10 @@ function showSavedGifs() {
         var br = $("<br>");
         var br2 = $("<br>");
         var br3 = $("<br>");
+        var removeBtn = $("<button>").text("Remove");
+
+        removeBtn.addClass("removeButton");
+        removeBtn.attr("data-index", i);
 
         saveBtn.addClass("saveButton");
         saveBtn.attr("data-title", lastActivity[i].title);
@@ -129,13 +136,23 @@ function showSavedGifs() {
         foodDiv.append(gifImage);
         foodDiv.append(br);
         foodDiv.append(saveBtn);
+        foodDiv.append(removeBtn);
         $("#favourites").prepend(foodDiv);
     }
 }
 
+//this function removes a GIF from the faovurites section
+function removeGif() {
+    // event.preventDefault;
+    arrSavedItems = JSON.parse(localStorage.getItem("saved-gifs"))
+    var currentIndex = $(this).attr("data-index");
+    arrSavedItems.splice(currentIndex, 1);
+    localStorage.setItem("saved-gifs", JSON.stringify(arrSavedItems));
+    showSavedGifs();
+}
+
 //start of function initiation
 $(document).ready(function() {
-    // localStorage.clear();
     renderButtons();
     
     $("#add-food").click(function() {
@@ -147,6 +164,7 @@ $(document).ready(function() {
     $(document).on("click", ".food-btn", displayGif); 
     $(document).on("click", ".theImage", changeState);
     $(document).on("click", ".saveButton", saveGif);
+    $(document).on("click", ".removeButton", removeGif);
     showSavedGifs();
 
 });
