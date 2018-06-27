@@ -29,6 +29,9 @@ function displayGif() {
             var title = results[i].title;
             var pTitle = $("<p>").text("Title: " + title);
             var gifImage = $("<img>");
+            var br = $("<br>");
+            var br2 = $("<br>");
+            var br3 = $("<br>");
             var saveBtn = $("<button>").text("Save");
 
             saveBtn.addClass("saveButton");
@@ -43,9 +46,12 @@ function displayGif() {
             gifImage.attr("still-image", results[i].images.fixed_height_still.url);
             gifImage.attr("animated-image", results[i].images.fixed_height.url);
             gifImage.addClass("theImage");
+            foodDiv.append(br2);
             foodDiv.append(pTitle);
             foodDiv.append(pRating);
+            foodDiv.append(br3);
             foodDiv.append(gifImage);
+            foodDiv.append(br);
             foodDiv.append(saveBtn);
             $("#gifs-view").prepend(foodDiv);
         }
@@ -62,7 +68,7 @@ function changeState() {
         $(this).attr("data-state", "still");
     }
 }
-
+//function for when you click on the save button 
 function saveGif() {
     console.log("Hi");
     console.log($(this).attr("data-title"));
@@ -90,6 +96,7 @@ function saveGif() {
     // showSavedGifs();
 }
 
+//function for showing the saved gifs when reloading the page because they're in the local storage 
 function showSavedGifs() {
     // $("#gifs-view").empty();
     arrSavedItems = JSON.parse(localStorage.getItem("saved-gifs")) || [];
@@ -101,6 +108,9 @@ function showSavedGifs() {
         var pTitle = $("<p>").text("Title: " + lastActivity[i].title);
         var gifImage = $("<img>");
         var saveBtn = $("<button>").text("Save");
+        var br = $("<br>");
+        var br2 = $("<br>");
+        var br3 = $("<br>");
 
         saveBtn.addClass("saveButton");
         saveBtn.attr("data-title", lastActivity[i].title);
@@ -112,11 +122,14 @@ function showSavedGifs() {
         gifImage.attr("still-image", lastActivity[i].imageStill);
         gifImage.attr("animated-image", lastActivity[i].imageAnimate);
         gifImage.addClass("theImage");
+        foodDiv.append(br2);
         foodDiv.append(pTitle);
         foodDiv.append(pRating);
+        foodDiv.append(br3);
         foodDiv.append(gifImage);
+        foodDiv.append(br);
         foodDiv.append(saveBtn);
-        $("#gifs-view").prepend(foodDiv);
+        $("#favourites").prepend(foodDiv);
     }
 }
 

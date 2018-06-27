@@ -1,0 +1,53 @@
+.gif-results {
+    background-color: white;
+    width: 46%;
+    padding: 10px;
+    margin-left: 1%;
+    margin-right: 1%;
+    border-style: dashed;
+    border-width: 3px;
+    border-color: black;
+    text-align: center;
+
+}
+
+.favourites-box {
+    background-color: white;
+    width: 47%;
+    border-style: dashed;
+    border-width: 3px;
+    border-color: black;  
+    text-align: center;
+    padding: 10px;
+}
+
+.gifs-container {
+    display: inline-flex;
+    width: 100%;
+    
+}
+
+.gifDiv {
+    padding-left: 22%;
+    padding-right: 22%;
+    text-align: center;
+}
+
+.section-titles {
+    font-size: 40px;
+    margin-bottom: 5x;
+    font-weight: bold;
+}
+
+.container {
+    text-align: center;
+}
+
+p1 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 300px;
+}
